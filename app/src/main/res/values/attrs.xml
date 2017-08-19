@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="clock_view">
+        <attr name="background_color" format="color"/>
+        <attr name="active_text_color" format="color"/>
+        <attr name="inactive_text_color" format="color"/>
+        <attr name="show_grid" format="boolean"/>
+        <attr name="show_square" format="boolean"/>
+        <attr name="default_value" format="integer"/>
+    </declare-styleable>
+
+</resources>

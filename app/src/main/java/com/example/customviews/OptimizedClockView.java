@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -27,12 +26,17 @@ public class OptimizedClockView extends View implements IClockView{
     protected Paint gridPaint;
     protected Paint activeTextPaint;
     protected Paint inactiveTextPaint;
+
+    protected int mBackgroundColor = resolveColor(R.color.colorPrimary);
+    protected int mActiveTextColor = resolveColor(R.color.colorAccent);
+    protected int mInactiveTextColor = resolveColor(R.color.colorInactive);
+
     protected int cellPadding = 0;
 
-    protected boolean showGridBackground = true;
-    protected boolean showGrid = true;
+    protected boolean mShowGridBackground = true;
+    protected boolean mShowGrid = true;
 
-    private int currentNumber = 24;
+    protected int mCurrentNumber = 24;
     private float canvasSize;
     private float cellSize;
     private float nColumns;
@@ -61,24 +65,28 @@ public class OptimizedClockView extends View implements IClockView{
     /**
      *
      */
-    private void init(){
+    protected void init(){
         defaultSize = (int) (200 * getContext().getResources().getDisplayMetrics().density);
-        backgroundPaint = createPaintFromResource(R.color.colorPrimary);
-        squarePaint = createPaintFromResource(R.color.green);
-        gridPaint = createPaintFromResource(R.color.blue);
-        activeTextPaint = createPaintFromResource(R.color.colorAccent);
-        inactiveTextPaint = createPaintFromResource(R.color.colorInactive);
+        backgroundPaint = createPaintFromResource(mBackgroundColor);
+        activeTextPaint = createPaintFromResource(mActiveTextColor);
+        inactiveTextPaint = createPaintFromResource(mInactiveTextColor);
+
+        squarePaint = createPaintFromResource(resolveColor(R.color.green));
+        gridPaint = createPaintFromResource(resolveColor(R.color.blue));
 
         if(!isInEditMode())
             start();
     }
 
-    private Paint createPaintFromResource(@ColorRes int color){
+    private Paint createPaintFromResource(int color){
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(ContextCompat.getColor(getContext(),color));
+        paint.setColor(color);
         return paint;
     }
 
+    private int resolveColor(@ColorRes int colorId){
+        return ContextCompat.getColor(getContext(),colorId);
+    }
 
     //region //View overrides
 
@@ -101,10 +109,10 @@ public class OptimizedClockView extends View implements IClockView{
 
 
 
-        updatePathsStatesForNumber(paths, currentNumber);
+        updatePathsStatesForNumber(paths, mCurrentNumber);
 
         canvas.drawRect(0,0,canvasWidth,canvasHeight,backgroundPaint);
-        if(showGridBackground) {
+        if(mShowGridBackground) {
             canvas.drawRect(
                     horizontalOffset,
                     verticalOffset,
@@ -113,7 +121,7 @@ public class OptimizedClockView extends View implements IClockView{
                     squarePaint);
         }
 
-        if(showGrid)
+        if(mShowGrid)
             paintGrid(canvas);
 
         for(ClockPath clockPath : paths){
@@ -352,7 +360,7 @@ public class OptimizedClockView extends View implements IClockView{
 
     @Override
     public void reset() {
-        currentNumber = 0;
+        mCurrentNumber = 0;
     }
 
     private Runnable updateRunnable = new Runnable() {
@@ -363,11 +371,11 @@ public class OptimizedClockView extends View implements IClockView{
     };
 
     private void updateClock() {
-        if(currentNumber > 0) {
-            currentNumber--;
+        if(mCurrentNumber > 0) {
+            mCurrentNumber--;
             invalidate();
 
-            if(currentNumber != 0) {
+            if(mCurrentNumber != 0) {
                 //sigue actualizando
                 postDelayed(updateRunnable, 1000L);
             }else{
