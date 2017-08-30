@@ -28,8 +28,8 @@ public class ClockView extends View implements IClockView{
     protected Paint inactiveTextPaint;
     protected int cellPadding = 0;
 
-    protected boolean showGridBackground = false;
-    protected boolean showGrid = false;
+    protected boolean showGridBackground = true;
+    protected boolean showGrid = true;
 
     private int currentNumber = 24;
     private float canvasSize;
@@ -151,7 +151,7 @@ public class ClockView extends View implements IClockView{
     }
 
     /**
-     * Create paths that when together, allow us to represent a number
+     * Create paths that, when displayed together, allow us to represent a number
      */
     private @NonNull List<ClockPath> initNumberPaths(){
         List<ClockPath> paths = new ArrayList<>();
@@ -166,7 +166,7 @@ public class ClockView extends View implements IClockView{
                     new GridPoint(2,5)));
             //B
             paths.add(createPath(column,cellSize,
-                    new GridPoint(0,5),
+                    new GridPoint(0,3),
                     new GridPoint(0,9),
                     new GridPoint(2,8),
                     new GridPoint(2,5)));

@@ -174,7 +174,7 @@ public class PaddingClockView extends View implements IClockView{
                     new GridPoint(2,5)));
             //B
             paths.add(createPath(column,cellSize,
-                    new GridPoint(0,5),
+                    new GridPoint(0,3),
                     new GridPoint(0,9),
                     new GridPoint(2,8),
                     new GridPoint(2,5)));
